@@ -1,19 +1,20 @@
-function repeat(operation, num) {
-    // Modify this so it doesn't cause a stack overflow!
+ function repeat(operation, num) {
     if (num <= 0) return
     operation()
-    return repeat.bind(null, operation, --num);
+    return function() {
+      return repeat(operation, --num)
+    }
+    
   }
   
   function trampoline(fn) {
-    // You probably want to implement a trampoline!
-    while (fn) {
-      fn();
+    while(fn && typeof(fn) === 'function') {
+      var fn = fn(); 
     }
+    return fn;
 
   }
   
   module.exports = function(operation, num) {
-    // You probably want to call your trampoline here!
-    return trampoline(repeat(operation, num));
+    return trampoline(repeat(operation, num))
   }

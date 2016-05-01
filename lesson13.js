@@ -1,14 +1,18 @@
 function repeat(operation, num) {
-  // modify this so it can be interrupted
   if (num <= 0) return
+
+  operation()
+
+  // release control every 10 or so
+  // iterations.
+  // 10 is arbitrary.
   if (num % 10 === 0) {
     setTimeout(function() {
-        repeat(operation, --num)
+      repeat(operation, --num)
     })
-} else {
+  } else {
     repeat(operation, --num)
-}
-  return repeat(operation, --num);
+  }
 }
 
 module.exports = repeat
